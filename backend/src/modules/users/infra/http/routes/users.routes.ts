@@ -1,12 +1,13 @@
 import { Router } from 'express';
+import { celebrate, Segments, Joi } from 'celebrate';
+
 import multer from 'multer';
 import uploadConfig from '@config/upload';
-import { celebrate, Segments, Joi } from 'celebrate';
 
 import UsersController from '@modules/users/infra/http/controllers/UsersController';
 import UserAvatarController from '@modules/users/infra/http/controllers/UserAvatarController';
 
-import unsureAuthenticated from '../middlewares/unsureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
 const usersController = new UsersController();
@@ -25,12 +26,11 @@ usersRouter.post(
   usersController.create,
 );
 
-// Atualizar uma unica informação, usa-se o patch
 usersRouter.patch(
   '/avatar',
-  unsureAuthenticated,
+  ensureAuthenticated,
   upload.single('avatar'),
-  userAvatarController.patch,
+  userAvatarController.update,
 );
 
 export default usersRouter;

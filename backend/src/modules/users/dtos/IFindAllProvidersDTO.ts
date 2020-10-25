@@ -1,3 +1,3 @@
 export default interface IFindAllProvidersDTO {
-  except_user_id: string;
+  execept_user_id?: string;
 }

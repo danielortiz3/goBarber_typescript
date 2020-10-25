@@ -18,7 +18,7 @@ import logoImg from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-interface SigUpFormData {
+interface SignUpFormData {
   name: string;
   email: string;
   password: string;
@@ -30,7 +30,7 @@ const SignUp: React.FC = () => {
   const history = useHistory();
 
   const handleSubmit = useCallback(
-    async (data: SigUpFormData) => {
+    async (data: SignUpFormData) => {
       try {
         formRef.current?.setErrors({});
 

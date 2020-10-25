@@ -6,7 +6,7 @@ import ptBR from 'date-fns/locale/pt-BR';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
-import { FiClock, FiPower } from 'react-icons/fi';
+import { FiClock, FiPower, FiUser } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import {
   Container,
@@ -150,15 +150,18 @@ const Dashboard: React.FC = () => {
             <img src={user.avatar_url} alt={user.name} />
             <div>
               <span>Bem-vindo,</span>
-              <Link to="/profile">
-                <strong>{user.name}</strong>
-              </Link>
+              <strong>{user.name}</strong>
             </div>
           </Profile>
 
-          <button type="button" onClick={signOut}>
-            <FiPower />
-          </button>
+          <div className="button">
+            <Link to="/profile">
+              <FiUser />
+            </Link>
+            <button type="button" onClick={signOut}>
+              <FiPower />
+            </button>
+          </div>
         </HeaderContent>
       </Header>
 
@@ -172,6 +175,7 @@ const Dashboard: React.FC = () => {
             <span>{selectedWeekDay}</span>
           </p>
 
+          {/* Agendamentos do dia atual */}
           {isToday(selectedDate) && nextappointment && (
             <NextAppointment>
               <strong>Próximo agendamento: </strong>

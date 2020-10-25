@@ -1,8 +1,8 @@
 import nodemailer, { Transporter } from 'nodemailer';
-import { inject, injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 
+import ISendMailDto from 'shared/container/providers/MailProvider/dtos/ISendMailDTO';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
-import ISendMailDTO from '@shared/container/providers/MailProvider/models/dtos/ISendMailDTO';
 
 import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
 
@@ -34,7 +34,7 @@ export default class EtherealMailProvider implements IMailProvider {
     from,
     subject,
     templateData,
-  }: ISendMailDTO): Promise<void> {
+  }: ISendMailDto): Promise<void> {
     const message = await this.client.sendMail({
       from: {
         name: from?.name || 'Equipe GoBarber',
@@ -48,7 +48,8 @@ export default class EtherealMailProvider implements IMailProvider {
       html: await this.mailTemplateProvider.parse(templateData),
     });
 
-    console.log('Message sent: %s', message.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message));
+    /* eslint-disable no-console */
+    console.log(`Message sent: ${message.messageId}`);
+    console.log(`Preview URL: ${nodemailer.getTestMessageUrl(message)}`);
   }
 }

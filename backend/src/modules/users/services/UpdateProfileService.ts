@@ -1,17 +1,18 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
-import User from '@modules/users/infra//typeorm/entities/User';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
+
+import User from '@modules/users/infra/typeorm/entities/User';
 
 interface IRequest {
   user_id: string;
   name: string;
   email: string;
-  password?: string;
   old_password?: string;
+  password?: string;
 }
 
 @injectable()
@@ -28,38 +29,37 @@ class UpdateProfileService {
     user_id,
     name,
     email,
-    old_password,
     password,
+    old_password,
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError('User not found.');
+      throw new AppError('User not found');
     }
 
-    const userWithUpdateEmail = await this.usersRepository.findByEmail(email);
+    const userWithUpdatedEmail = await this.usersRepository.findByEmail(email);
 
-    if (userWithUpdateEmail && userWithUpdateEmail.id !== user_id) {
-      throw new AppError('E-mail already used.');
+    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user_id) {
+      throw new AppError('E-mail already in use');
     }
 
-    user.name = name;
-    user.email = email;
+    Object.assign(user, { name, email });
 
     if (password && !old_password) {
       throw new AppError(
-        'You need to inform the old password to change the password.',
+        'You need to inform the old password to set a new password',
       );
     }
 
     if (password && old_password) {
-      const checkOldPassword = await this.hashProvider.compareHash(
+      const checkOldPassword = await this.hashProvider.comapreHash(
         old_password,
         user.password,
       );
 
       if (!checkOldPassword) {
-        throw new AppError('Old password does not match.');
+        throw new AppError('Old password does not match');
       }
 
       user.password = await this.hashProvider.generateHash(password);

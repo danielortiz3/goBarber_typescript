@@ -14,8 +14,8 @@ export default {
 
   defaults: {
     from: {
-      email: 'gobarbersapp@gobarberapp.app.br',
-      name: 'Equipe GoBarber',
+      email: 'eliasgabrielcf@gmail.com',
+      name: 'Elias Gabriel',
     },
   },
 } as IMailConfig;

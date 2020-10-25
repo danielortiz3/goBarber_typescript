@@ -2,10 +2,9 @@ import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
 import SessionsController from '@modules/users/infra/http/controllers/SessionsController';
-import JSONTransport from 'nodemailer/lib/json-transport';
 
-const sessionsController = new SessionsController();
 const sessionsRouter = Router();
+const sessionsController = new SessionsController();
 
 sessionsRouter.post(
   '/',

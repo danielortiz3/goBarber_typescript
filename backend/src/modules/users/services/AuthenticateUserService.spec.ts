@@ -2,13 +2,14 @@ import AppError from '@shared/errors/AppError';
 
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
-import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
+
+import AuthenticateUserService from './AuthenticateUserService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let authenticateUser: AuthenticateUserService;
 
-describe('AuthenticateUser', () => {
+describe('AuthentiacteUser', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
@@ -22,12 +23,12 @@ describe('AuthenticateUser', () => {
   it('should be able to authenticate', async () => {
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
-      email: 'johndoe@email.com',
+      email: 'johndoe@example.com',
       password: '123456',
     });
 
     const response = await authenticateUser.execute({
-      email: 'johndoe@email.com',
+      email: 'johndoe@example.com',
       password: '123456',
     });
 
@@ -35,10 +36,10 @@ describe('AuthenticateUser', () => {
     expect(response.user).toEqual(user);
   });
 
-  it('should not to be able to authenticate with non existing user', async () => {
+  it('should not be able to authenticate with non existing user', async () => {
     await expect(
       authenticateUser.execute({
-        email: 'johndoe@email.com',
+        email: 'johndoe@example.com',
         password: '123456',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -47,13 +48,13 @@ describe('AuthenticateUser', () => {
   it('should not be able to authenticate with wrong password', async () => {
     await fakeUsersRepository.create({
       name: 'John Doe',
-      email: 'johndoe@email.com',
+      email: 'johndoe@example.com',
       password: '123456',
     });
 
-    expect(
+    await expect(
       authenticateUser.execute({
-        email: 'johndoe@email.com',
+        email: 'johndoe@example.com',
         password: 'wrong-password',
       }),
     ).rejects.toBeInstanceOf(AppError);

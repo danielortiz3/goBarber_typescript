@@ -1,10 +1,9 @@
 import { uuid } from 'uuidv4';
-
 import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository';
 
 import UserToken from '@modules/users/infra/typeorm/entities/UserToken';
 
-class FakeUsersTokensRepository implements IUserTokensRepository {
+class FakeUserTokenRepository implements IUserTokensRepository {
   private userTokens: UserToken[] = [];
 
   public async generate(user_id: string): Promise<UserToken> {
@@ -32,4 +31,4 @@ class FakeUsersTokensRepository implements IUserTokensRepository {
   }
 }
 
-export default FakeUsersTokensRepository;
+export default FakeUserTokenRepository;

@@ -1,33 +1,34 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeStorageProvider from '@shared/container/providers/StoragedProviders/fakes/FakeStorageProvider';
+import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
-import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
+import UpdateUserAvatar from './UpdateUserAvatarService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeStorageProvider: FakeStorageProvider;
-let updateUserAvatar: UpdateUserAvatarService;
+let updateUserAvatar: UpdateUserAvatar;
 
 describe('UpdateUserAvatar', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeStorageProvider = new FakeStorageProvider();
 
-    updateUserAvatar = new UpdateUserAvatarService(
+    updateUserAvatar = new UpdateUserAvatar(
       fakeUsersRepository,
       fakeStorageProvider,
     );
   });
-  it('should be able to update user avatar', async () => {
+
+  it('should be able to update the user avatar', async () => {
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
-      email: 'johndoe@email.com',
+      email: 'johndoe@example.com',
       password: '123456',
     });
 
     await updateUserAvatar.execute({
       user_id: user.id,
-      avatarFileName: 'avatar.jpg',
+      avatarFilename: 'avatar.jpg',
     });
 
     expect(user.avatar).toBe('avatar.jpg');
@@ -36,8 +37,8 @@ describe('UpdateUserAvatar', () => {
   it('should not be able to update avatar from non existing user', async () => {
     await expect(
       updateUserAvatar.execute({
-        user_id: 'non-existing-user',
-        avatarFileName: 'avatar.jpg',
+        user_id: 'non-existin-user',
+        avatarFilename: 'avatar.jpg',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -47,21 +48,21 @@ describe('UpdateUserAvatar', () => {
 
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
-      email: 'johndoe@email.com',
+      email: 'johndoe@example.com',
       password: '123456',
     });
 
     await updateUserAvatar.execute({
       user_id: user.id,
-      avatarFileName: 'avatar.jpg',
+      avatarFilename: 'avatar.jpg',
     });
 
     await updateUserAvatar.execute({
       user_id: user.id,
-      avatarFileName: 'avatar1.jpg',
+      avatarFilename: 'avatar2.jpg',
     });
 
     expect(deleteFile).toHaveBeenCalledWith('avatar.jpg');
-    expect(user.avatar).toBe('avatar1.jpg');
+    expect(user.avatar).toBe('avatar2.jpg');
   });
 });

@@ -14,20 +14,24 @@ export const HeaderContent = styled.div`
   display: flex;
   align-items: center;
 
+  div.button {
+    margin-left: auto;
+  }
+
   > img {
     height: 80px;
   }
 
   button {
-    margin-left: auto;
+    margin: 8px;
     background: transparent;
     border: 0;
   }
 
   svg {
     color: #ff9000;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
   }
 `;
 
@@ -49,11 +53,22 @@ export const Profile = styled.div`
     line-height: 24px;
 
     span {
+      font-size: 18;
       #f4ede8;
     }
 
     strong {
       color: #ff9000;
+      font-size: 21px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #ff9000;
+
+      &:hover {
+       opacity: 0.8;
+      }
     }
   }
 `;
@@ -158,6 +173,10 @@ export const Section = styled.section`
     display: block;
     padding-bottom: 16px;
     margin-bottom: 16px;
+  }
+
+  > p {
+    color: #999591;
   }
 `;
 
