@@ -6,9 +6,9 @@ import Route from './Route';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import ForgotPassword from '../pages/ForgotPassword';
-import ResetPassword from '../pages/ResetPassoword';
-import Profile from '../pages/Profile';
+import ResetPassword from '../pages/ResetPassword';
 
+import Profile from '../pages/Profile';
 import Dashboard from '../pages/Dashboard';
 
 const Routes: React.FC = () => (

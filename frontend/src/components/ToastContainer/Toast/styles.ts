@@ -5,6 +5,7 @@ interface ContainerProps {
   type?: 'success' | 'error' | 'info';
   hasDescription: number;
 }
+
 const toastTypeVariations = {
   info: css`
     background: #ebf8ff;
@@ -12,7 +13,7 @@ const toastTypeVariations = {
   `,
   success: css`
     background: #e6fffa;
-    color: #16b857;
+    color: #2e656a;
   `,
   error: css`
     background: #fddede;
@@ -26,7 +27,7 @@ export const Container = styled(animated.div)<ContainerProps>`
   position: relative;
   padding: 16px 30px 16px 16px;
   border-radius: 10px;
-  box-shadow: 2px 2px 8px rgba (0, 0, 0, 0.2);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 
   display: flex;
 

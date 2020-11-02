@@ -1,12 +1,10 @@
-/* eslint-disable import/no-duplicates */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { isToday, format, parseISO, isAfter } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
-
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
-import { FiClock, FiPower, FiUser } from 'react-icons/fi';
+import { FiPower, FiClock } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import {
   Container,
@@ -36,13 +34,12 @@ interface Appointment {
   hourFormatted: string;
   user: {
     name: string;
-    // eslint-disable-next-line camelcase
     avatar_url: string;
   };
 }
 
 const Dashboard: React.FC = () => {
-  const { signOut, user } = useAuth();
+  const { user, signOut } = useAuth();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -63,7 +60,6 @@ const Dashboard: React.FC = () => {
     setCurrentMonth(month);
   }, []);
 
-  // função disparada toda vez que a variavel currentMonth mudar
   useEffect(() => {
     api
       .get(`/providers/${user.id}/month-availability`, {
@@ -93,6 +89,7 @@ const Dashboard: React.FC = () => {
             hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
           };
         });
+
         setAppointments(appointmentsFormatted);
       });
   }, [selectedDate]);
@@ -117,9 +114,7 @@ const Dashboard: React.FC = () => {
   }, [selectedDate]);
 
   const selectedWeekDay = useMemo(() => {
-    return format(selectedDate, 'cccc', {
-      locale: ptBR,
-    });
+    return format(selectedDate, 'cccc', { locale: ptBR });
   }, [selectedDate]);
 
   const morningAppointments = useMemo(() => {
@@ -134,7 +129,7 @@ const Dashboard: React.FC = () => {
     });
   }, [appointments]);
 
-  const nextappointment = useMemo(() => {
+  const nextAppointment = useMemo(() => {
     return appointments.find(appointment =>
       isAfter(parseISO(appointment.date), new Date()),
     );
@@ -150,45 +145,40 @@ const Dashboard: React.FC = () => {
             <img src={user.avatar_url} alt={user.name} />
             <div>
               <span>Bem-vindo,</span>
-              <strong>{user.name}</strong>
+              <Link to="/profile">
+                <strong>{user.name}</strong>
+              </Link>
             </div>
           </Profile>
 
-          <div className="button">
-            <Link to="/profile">
-              <FiUser />
-            </Link>
-            <button type="button" onClick={signOut}>
-              <FiPower />
-            </button>
-          </div>
+          <button type="button" onClick={signOut}>
+            <FiPower />
+          </button>
         </HeaderContent>
       </Header>
 
       <Content>
         <Schedule>
           <h1>Horários agendados</h1>
-
           <p>
             {isToday(selectedDate) && <span>Hoje</span>}
             <span>{selectedDateAsText}</span>
             <span>{selectedWeekDay}</span>
           </p>
 
-          {/* Agendamentos do dia atual */}
-          {isToday(selectedDate) && nextappointment && (
+          {isToday(selectedDate) && nextAppointment && (
             <NextAppointment>
-              <strong>Próximo agendamento: </strong>
+              <strong>Agendamento a seguir</strong>
               <div>
                 <img
-                  src={nextappointment.user.avatar_url}
-                  alt={nextappointment.user.name}
+                  src={nextAppointment.user.avatar_url}
+                  alt={nextAppointment.user.name}
                 />
 
-                <strong>{nextappointment.user.name}</strong>
+                <strong>{nextAppointment.user.name}</strong>
                 <span>
                   <FiClock />
-                  {nextappointment.hourFormatted}
+                  {nextAppointment.hourFormatted}
                 </span>
               </div>
             </NextAppointment>

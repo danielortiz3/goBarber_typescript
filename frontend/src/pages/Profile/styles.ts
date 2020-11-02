@@ -16,8 +16,8 @@ export const Container = styled.div`
 
       svg {
         color: #999591;
-        width: 30px;
-        height: 30px;
+        width: 24px;
+        height: 24px;
       }
     }
   }
@@ -27,11 +27,10 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  place-content: center;
+  justify-content: center;
+  margin: -176px auto 0;
 
   width: 100%;
-  margin: -176px auto 0;
 
   form {
     margin: 80px 0;
@@ -45,30 +44,22 @@ export const Content = styled.div`
       font-size: 20px;
       text-align: left;
     }
-  }
 
-  > a {
-    color: #ff9000;
-    display: block;
-    margin-top: 24px;
-    text-decoration: none;
-    transition: background-color 0.2s;
+    a {
+      color: #f4ede8;
+      display: block;
+      margin-top: 24px;
+      text-decoration: none;
+      transition: color 0.2s;
 
-    display: flex;
-    align-items: center;
-
-    svg {
-      margin-right: 16px;
+      &:hover {
+        color: ${shade(0.2, '#f4ede8')};
+      }
     }
 
-    &:hover {
-      color: ${shade(0.2, '#FF9000')};
+    input[name='old_password'] {
+      margin-top: 24px;
     }
-  }
-
-  input[name='old_password'] {
-    margin-top: 24px;
-    position: relative;
   }
 `;
 

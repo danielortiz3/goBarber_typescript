@@ -13,11 +13,11 @@ interface ToastContainerProps {
 const ToastContainer: React.FC<ToastContainerProps> = ({ messages }) => {
   const messagesWithTransitions = useTransition(
     messages,
-    message => message.id,
+    (message) => message.id,
     {
-      from: { right: '-110%', opacity: 0, transform: 'rotateY(0deg)' },
-      enter: { right: '0%', opacity: 1, transform: 'rotateY(360deg)' },
-      leave: { right: '-110%', opacity: 0, transform: 'rotateY(0deg)' },
+      from: { right: '-120%', opacity: 0 },
+      enter: { right: '0%', opacity: 1 },
+      leave: { right: '-120%', opacity: 0 },
     },
   );
 
@@ -31,8 +31,3 @@ const ToastContainer: React.FC<ToastContainerProps> = ({ messages }) => {
 };
 
 export default ToastContainer;
-
-// useTransition retorna algumas propriedades:
-//  - item = mensagem
-//  - key é a propria key
-//  - props é o objeto contendo o fromString, enter e leave

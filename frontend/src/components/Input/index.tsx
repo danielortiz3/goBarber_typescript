@@ -1,8 +1,8 @@
 import React, {
   InputHTMLAttributes,
   useEffect,
-  useState,
   useRef,
+  useState,
   useCallback,
 } from 'react';
 import { IconBaseProps } from 'react-icons';
@@ -24,6 +24,7 @@ const Input: React.FC<InputProps> = ({
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
@@ -36,7 +37,6 @@ const Input: React.FC<InputProps> = ({
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
 
-    // Duas !! retorna true ou false
     setIsFilled(!!inputRef.current?.value);
   }, []);
 
@@ -52,8 +52,9 @@ const Input: React.FC<InputProps> = ({
     <Container
       style={containerStyle}
       isErrored={!!error}
-      isFocused={isFocused}
       isFilled={isFilled}
+      isFocused={isFocused}
+      data-testid="input-container"
     >
       {Icon && <Icon size={20} />}
       <input
